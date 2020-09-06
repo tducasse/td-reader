@@ -12,7 +12,7 @@
     }
     await Promise.all(
       feeds.map(async (feed) => {
-        const res = await fetch(`${window.origin}api/main?url='${feed.url}`);
+        const res = await fetch(`${window.origin}/api/cors?url='${feed.url}`);
         if (res.status !== 200) {
           console.log(`Request error fetching ${feed.url}`);
         } else {
