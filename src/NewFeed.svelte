@@ -1,7 +1,15 @@
 <script>
+  import { select_multiple_value } from "svelte/internal";
+
   export let add;
   let name;
   let url;
+  let subreddit;
+  let selected = "custom";
+
+  const select = (name) => {
+    selected = name;
+  };
 
   const submit = () => {
     add({ url, name });
@@ -9,20 +17,18 @@
     name = "";
   };
 
-  const sampleFeeds = [
-    {
-      url: "https://news.ycombinator.com/rss",
-      name: "Hacker News",
-    },
-    {
-      url: "https://www.echojs.com/rss",
-      name: "Echo JS",
-    },
-    {
-      url: "https://www.reddit.com/r/programming/hot/.rss",
-      name: "Reddit Programming",
-    },
-  ];
+  const submitReddit = () => {
+    if (!subreddit) {
+      return false;
+    }
+    add({
+      name: `Reddit ${subreddit}`,
+      url: `https://reddit.com/r/${subreddit}.rss`,
+    });
+    subreddit = "";
+    name = "";
+    url = "";
+  };
 </script>
 
 <style>
@@ -43,44 +49,29 @@
     background-color: black;
   }
 
-  .container {
-    display: flex;
-    flex-direction: row;
-  }
-
-  .sample {
+  .title {
+    margin-bottom: 6px;
+    font-weight: bold;
+    font-size: large;
     color: whitesmoke;
-  }
-
-  .inner {
-    padding-top: 12px;
-    position: absolute;
-  }
-
-  .feed-button {
-    margin: 6px;
-    border-radius: 10px;
-  }
-
-  .left {
-    flex: 1;
   }
 </style>
 
-<div class="container">
-  <form class="left" on:submit|preventDefault={submit}>
+<div class="title">Add a new feed</div>
+<button on:click={() => select('reddit')}>Reddit</button>
+<button on:click={() => select('custom')}>Custom</button>
+{#if selected === 'reddit'}
+  <form on:submit|preventDefault={submitReddit}>
+    <input
+      id="new-feed-name"
+      placeholder="Subreddit name"
+      bind:value={subreddit} />
+    <button type="submit">Add new subreddit</button>
+  </form>
+{:else if selected === 'custom'}
+  <form on:submit|preventDefault={submit}>
     <input id="new-feed-url" placeholder="URL" bind:value={url} />
     <input id="new-feed-name" placeholder="Name" bind:value={name} />
     <button type="submit">Add new feed</button>
   </form>
-  <details class="sample right">
-    <summary>Sample feeds</summary>
-    <div class="inner">
-      {#each sampleFeeds as feed}
-        <button
-          class="feed-button"
-          on:click={() => add(feed)}>{feed.name}</button>
-      {/each}
-    </div>
-  </details>
-</div>
+{/if}

@@ -13,6 +13,7 @@
     padding-bottom: 3px;
     background-color: darkslategray;
     color: whitesmoke;
+    display: flex;
   }
 
   .cross {
@@ -21,13 +22,29 @@
   .cross:hover {
     cursor: pointer;
   }
+
+  .title {
+    margin-bottom: 6px;
+    font-weight: bold;
+    font-size: large;
+    color: whitesmoke;
+  }
+
+  .container {
+    margin-bottom: 12px;
+  }
+
+  .left {
+    flex: 1;
+  }
 </style>
 
-<div>
+<div class="container">
+  <div class="title">Active feeds</div>
   {#each feeds as feed}
-    <span class="feed-name">
-      {feed.name}
+    <div class="feed-name">
+      <span class="left"> {feed.name}</span>
       <span class="cross" on:click={() => remove(feed.name)}> &times; </span>
-    </span>
+    </div>
   {/each}
 </div>
