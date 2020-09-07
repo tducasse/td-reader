@@ -3,12 +3,14 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
+import replace from '@rollup/plugin-replace';
 
 const production = !process.env.ROLLUP_WATCH;
+const CORS_API = process.env.CORS_API;
 
 function serve() {
 	let server;
-	
+
 	function toExit() {
 		if (server) server.kill(0);
 	}
@@ -36,6 +38,14 @@ export default {
 		file: 'public/build/bundle.js'
 	},
 	plugins: [
+		replace({
+			API: CORS_API,
+			process: JSON.stringify({
+				env: {
+					isProd: production,
+				}
+			})
+		}),
 		svelte({
 			// enable run-time checks when not in production
 			dev: !production,
