@@ -11,6 +11,8 @@
     padding: 6px;
     padding-top: 3px;
     padding-bottom: 3px;
+    background-color: darkslategray;
+    color: whitesmoke;
   }
 
   .cross {

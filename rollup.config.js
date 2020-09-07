@@ -6,7 +6,6 @@ import { terser } from 'rollup-plugin-terser';
 import replace from '@rollup/plugin-replace';
 
 const production = !process.env.ROLLUP_WATCH;
-const CORS_API = process.env.CORS_API;
 
 function serve() {
 	let server;
@@ -39,12 +38,7 @@ export default {
 	},
 	plugins: [
 		replace({
-			API: CORS_API,
-			process: JSON.stringify({
-				env: {
-					isProd: production,
-				}
-			})
+			CORS_API: JSON.stringify(production ? process.env.CORS_API : 'https://cors-anywhere.herokuapp.com/')
 		}),
 		svelte({
 			// enable run-time checks when not in production

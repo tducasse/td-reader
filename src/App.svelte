@@ -13,6 +13,9 @@
     if (!feed.name || !feed.url) {
       return false;
     }
+    if ($feeds.find((el) => el.name === feed.name || el.url === feed.url)) {
+      return false;
+    }
     const newFeeds = $feeds.concat(feed);
     feeds.set(newFeeds);
   };
