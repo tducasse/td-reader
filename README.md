@@ -11,3 +11,8 @@ Interesting points:
 - the feeds are parsed using [rss-parser](https://github.com/rbren/rss-parser)
 - once parsed, the articles are sorted by date (when the feed returns one)
 - there's nothing clever about how I handle inner links to external websites: most RSS feeds seem to just return this in the content, so it would require some parsing on my side
+
+# what I could do to make it better
+- just use it more often: because it's not currently super good UX wise, I just don't 😬
+- parse things better: maybe find a way to add js snippets to allow custom parsing from a user's perspective
+- add automatic parsing for common platforms (hackernews, reddit, etc)
